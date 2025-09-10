@@ -7,6 +7,7 @@ export default class LoginPage {
   usernameInput = '[data-test="username"]'
   passwordInput = '[data-test="password"]'
   loginButton = '[data-test="login-button"]'
+  errorMessage = '[data-test="error"]'
 
   //Actions
   navigateToLoginPage() {
@@ -25,9 +26,15 @@ export default class LoginPage {
     cy.get(this.loginButton).click()
   }
 
+  //Perform login
   login(username, password) {
     this.enterUsername(username)
     this.enterPassword(password)
     this.clickLoginButton()
+  }
+
+  //Validate error message 
+  verifyErrorMessage(message) {
+    cy.get(this.errorMessage).should('have.text', message)
   }
 }

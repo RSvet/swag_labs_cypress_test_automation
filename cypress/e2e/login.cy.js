@@ -3,15 +3,41 @@ import LoginPage from '../pages/LoginPage'
 import ProductsPage from '../pages/ProductsPage'
 import test_credentials from '../fixtures/credentials'
 import page_data from '../fixtures/pageData'
+import errorMsgs from '../fixtures/errorMsgs'
 
 const loginPage = new LoginPage()
 const productsPage = new ProductsPage()
 
-describe('Successful login', () => {
+describe('Login page scenarios', () => {
 
-  it('TC-001: Login in with correct credentials', () => {
+  beforeEach(() => {
     loginPage.navigateToLoginPage()
-    loginPage.login(test_credentials.validUsername, test_credentials.validPassword)
-    productsPage.verifyPageLoaded(page_data.products)
   })
+
+  describe('Successful login', () => {
+    it('TC-001: Login in with correct credentials', () => {
+      loginPage.login(test_credentials.validUsername, test_credentials.validPassword)
+      productsPage.verifyPageLoaded(page_data.products)
+    })
+  })
+
+  describe('Missing credentials', () => {
+    it('TC-002: Login with correct password and blank username', () => {
+      loginPage.enterPassword(test_credentials.validPassword)
+      loginPage.clickLoginButton()
+      loginPage.verifyErrorMessage(errorMsgs.missingUsernameMsg)
+    })
+
+    it('TC-003: Login with correct username and blank password', () => {
+      loginPage.enterUsername(test_credentials.validUsername)
+      loginPage.clickLoginButton()
+      loginPage.verifyErrorMessage(errorMsgs.missingPasswordMsg)
+    })
+
+    it('TC-004: Login without credentials', () => {
+      loginPage.clickLoginButton()
+      loginPage.verifyErrorMessage(errorMsgs.missingUsernameMsg)
+    })
+  })
+
 })
