@@ -45,5 +45,20 @@ describe('Side menu navigation', () => {
     productsPage.verifyPageLoaded(page_data.products)
   })
 
+  it('TC-011: Reset app state clears cart', () => {
+    productsPage.addProducts(1).then(addedProduct => {
+      productsPage.verifyAddedProductQuantity(1)
+      sideMenu.resetAppState()
+      productsPage.verifyResetState(addedProduct)
+    })
+  })
+
+  it('TC-012: Reset app state sorts products to default', () => {
+    productsPage.sortProductsBy('Name (Z to A)')
+    productsPage.verifyProductsSortedByName('desc')
+    sideMenu.resetAppState()
+    productsPage.verifyProductsSortedByName('asc')
+  })
+
 
 })
