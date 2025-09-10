@@ -5,9 +5,8 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
 
     },
-    env: {
-      baseUrl: "https://www.saucedemo.com"
-    },
+    baseUrl: "https://www.saucedemo.com",
+    specPattern: "cypress/e2e/*.cy.{js,jsx,ts,tsx}",
     viewportWidth: 1920,
     viewportHeight: 1080,
   },
