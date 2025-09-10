@@ -39,4 +39,9 @@ export default class LoginPage extends BasePage {
   verifyErrorMessage(message) {
     cy.get(this.errorMessage).should('have.text', message)
   }
+
+  //Validate login button is present
+  verifyLoginButtonIsDisplayed() {
+    cy.get(this.loginButton).should('have.value', 'Login')
+  }
 }
