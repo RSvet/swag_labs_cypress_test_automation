@@ -12,6 +12,7 @@ export default class ProductsPage extends BasePage {
   productCard = '[data-test="inventory-item"]'
   productName = '[data-test="inventory-item-name"]'
   productPrice = '[data-test="inventory-item-price"]'
+  productDescription = '[data-test="inventory-item-desc"]'
   addToCartButton = (name) => `[data-test="add-to-cart-${name.toLowerCase().replace(/ /g, '-')}"]`
   removeButton = (name) => `[data-test="remove-${name.toLowerCase().replace(/ /g, '-')}"]`
 
@@ -40,6 +41,31 @@ export default class ProductsPage extends BasePage {
     });
 
     return cy.wrap(addedProducts)
+  }
+
+  verifyAllProductsPresent(numberOfExpectedProducts) {
+    cy.get(this.productCard).should('have.length', numberOfExpectedProducts)
+  }
+
+  verifyProductsNames(expectedProducts) {
+    cy.get(this.productName).each((name, i) => {
+      const nameText = name.text()
+      expect(nameText).to.be.eq(expectedProducts[i].name)
+    })
+  }
+
+  verifyProductsDescriptions(expectedProducts) {
+    cy.get(this.productDescription).each((desc, i) => {
+      const descText = desc.text()
+      expect(descText).to.be.eq(expectedProducts[i].description)
+    })
+  }
+
+  verifyProductsPrices(expectedProducts) {
+    cy.get(this.productPrice).each((p, i) => {
+      const price = p.text()
+      expect(price).to.be.eq(expectedProducts[i].price)
+    })
   }
 
   verifyAddedProductQuantity(quantity) {
