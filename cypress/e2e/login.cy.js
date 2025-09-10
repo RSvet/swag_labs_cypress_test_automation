@@ -25,18 +25,41 @@ describe('Login page scenarios', () => {
     it('TC-002: Login with correct password and blank username', () => {
       loginPage.enterPassword(test_credentials.validPassword)
       loginPage.clickLoginButton()
+      loginPage.verifyPageUrl(page_data.login.url)
       loginPage.verifyErrorMessage(errorMsgs.missingUsernameMsg)
     })
 
     it('TC-003: Login with correct username and blank password', () => {
       loginPage.enterUsername(test_credentials.validUsername)
       loginPage.clickLoginButton()
+      loginPage.verifyPageUrl(page_data.login.url)
       loginPage.verifyErrorMessage(errorMsgs.missingPasswordMsg)
     })
 
     it('TC-004: Login without credentials', () => {
       loginPage.clickLoginButton()
+      loginPage.verifyPageUrl(page_data.login.url)
       loginPage.verifyErrorMessage(errorMsgs.missingUsernameMsg)
+    })
+  })
+
+  describe('Invalid credentials', () => {
+    it('TC-005: Login with invalid username and valid password', () => {
+      loginPage.login(test_credentials.invalidUsername, test_credentials.validPassword)
+      loginPage.verifyPageUrl(page_data.login.url)
+      loginPage.verifyErrorMessage(errorMsgs.invalidCredentialsMsg)
+    })
+
+    it('TC-006: Login with valid username and invalid password', () => {
+      loginPage.login(test_credentials.validUsername, test_credentials.invalidPassword)
+      loginPage.verifyPageUrl(page_data.login.url)
+      loginPage.verifyErrorMessage(errorMsgs.invalidCredentialsMsg)
+    })
+
+    it('TC-007: Login with invalid username and password', () => {
+      loginPage.login(test_credentials.invalidUsername, test_credentials.invalidPassword)
+      loginPage.verifyPageUrl(page_data.login.url)
+      loginPage.verifyErrorMessage(errorMsgs.invalidCredentialsMsg)
     })
   })
 

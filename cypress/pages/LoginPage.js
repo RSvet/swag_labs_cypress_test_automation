@@ -1,7 +1,9 @@
 /// <reference types="cypress" />
 
+import BasePage from "./BasePage"
 
-export default class LoginPage {
+
+export default class LoginPage extends BasePage {
 
   //Locators
   usernameInput = '[data-test="username"]'

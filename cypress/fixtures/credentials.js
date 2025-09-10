@@ -1,4 +1,6 @@
 export default {
   validUsername: "standard_user",
   validPassword: "secret_sauce",
+  invalidUsername: "invalid_user",
+  invalidPassword: "invalid_password"
 }
