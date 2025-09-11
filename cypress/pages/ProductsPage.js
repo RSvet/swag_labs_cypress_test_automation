@@ -151,7 +151,9 @@ export default class ProductsPage extends BasePage {
       // If descending, reverse the sorted array
       if (order === 'desc') sortedArray.reverse()
 
-      expect(nameArray).to.deep.equal(sortedArray)
+      nameArray.forEach((name, index) => {
+        expect(name, `Name at index ${index}`).to.equal(sortedArray[index]);
+      });
     });
   }
 
@@ -163,7 +165,10 @@ export default class ProductsPage extends BasePage {
     cy.get(this.productPrice).then(($prices) => {
       const priceArray = $prices.map((i, el) => parseFloat(el.innerText.replace('$', ''))).get()
       const sortedArray = order === 'asc' ? [...priceArray].sort((a, b) => a - b) : [...priceArray].sort((a, b) => b - a)
-      expect(priceArray).to.deep.equal(sortedArray)
+
+      priceArray.forEach((price, index) => {
+        expect(price, `Price at index ${index}`).to.equal(sortedArray[index]);
+      });
     });
   }
 

@@ -62,6 +62,26 @@ describe('Products page scenarios', () => {
     })
   })
 
+  describe('Sorting products', () => {
+    it('TC-017: Sort products by name', () => {
+      productsPage.sortProductsBy('Name (Z to A)')
+      productsPage.verifyProductsSortedByName('desc')
+
+      productsPage.sortProductsBy('Name (A to Z)')
+      productsPage.verifyProductsSortedByName('asc')
+
+    })
+
+    it('TC-018: Sort products by price', () => {
+      productsPage.sortProductsBy('Price (low to high)')
+      productsPage.verifyProductsSortedByPrice('asc')
+
+      productsPage.sortProductsBy('Price (high to low)')
+      productsPage.verifyProductsSortedByPrice('desc')
+
+    })
+  })
+
 
 
 
