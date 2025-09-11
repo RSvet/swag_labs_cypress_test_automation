@@ -40,4 +40,22 @@ describe('Overview page tests', () => {
       })
     })
   })
+
+  describe('Validation of product information', () => {
+    it('TC-039: Validate products and totals on Overview page', () => {
+      productsPage.addDifferentProducts(3).then((addedProduct) => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
+        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
+        checkoutPage.clickContinueButton()
+        overviewPage.verifyPageLoaded(pageData.overview)
+        overviewPage.verifyProductDetailsInOverviewList(addedProduct)
+      })
+      overviewPage.verifySubtotal();
+      overviewPage.verifyTax();
+      overviewPage.verifyTotal();
+    })
+
+  })
 })
