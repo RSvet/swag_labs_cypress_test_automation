@@ -1,15 +1,18 @@
 /// <reference types="cypress" />
 import credentials from "../fixtures/credentials"
 import pageData from "../fixtures/pageData"
+import productsData from "../fixtures/productsData"
 import LoginPage from "../pages/LoginPage"
 import Header from "../pages/Header"
 import CartPage from "../pages/CartPage"
 import ProductsPage from "../pages/ProductsPage"
+import CheckoutPage from "../pages/CheckoutPage"
 
 const loginPage = new LoginPage()
 const header = new Header()
 const cartPage = new CartPage()
 const productPage = new ProductsPage()
+const checkoutPage = new CheckoutPage()
 
 describe('Cart page scenarios', () => {
   beforeEach(() => {
@@ -52,11 +55,58 @@ describe('Cart page scenarios', () => {
     })
 
     it('TC-024: Update product quantity in the cart', () => {
-      productPage.addDifferentProducts(1).then(addedProduct => {
+      productPage.addDifferentProducts(1).then(() => {
         header.openCart()
         cartPage.changeQuantity(3)
       })
 
+    })
+
+    describe('Navigation from cart page', () => {
+      it('TC-025: Validate navigation from cart page to checkout with empty cart', () => {
+        header.openCart()
+        cartPage.verifyPageLoaded(pageData.cart)
+        cartPage.verifyCartIsEmpty()
+        cartPage.verifyCheckoutIsDisabled()
+      })
+
+      it('TC-026: Validate navigation from cart page to products with empty cart', () => {
+        header.openCart()
+        cartPage.verifyPageLoaded(pageData.cart)
+        cartPage.verifyCartIsEmpty()
+        cartPage.clickOnContinueShoppingButton()
+        productPage.verifyPageLoaded(pageData.products)
+        productPage.verifyAllProductsPresent(productsData.products.length)
+      })
+
+      it('TC-027: Validate navigation from cart page to checkout with added product to cart', () => {
+        productPage.addDifferentProducts(1).then(() => {
+          header.openCart()
+          cartPage.verifyNumberOfProductsInCart(1)
+          cartPage.clickOnCheckoutButton()
+          checkoutPage.verifyPageLoaded(pageData.checkout)
+        })
+      })
+
+      it('TC-028: Validate navigation from cart page to products with added product to cart', () => {
+        productPage.addDifferentProducts(1).then(() => {
+          header.openCart()
+          cartPage.verifyNumberOfProductsInCart(1)
+          cartPage.clickOnContinueShoppingButton()
+          productPage.verifyPageLoaded(pageData.products)
+          productPage.verifyAllProductsPresent(productsData.products.length)
+        })
+      })
+
+      it('TC-029: Validate cart state persists after relaoding the page', () => {
+        productPage.addDifferentProducts(1).then((addedProduct) => {
+          header.openCart()
+          cartPage.verifyNumberOfProductsInCart(1)
+          cartPage.reloadThePage()
+          header.verifyAddedProductQuantity(1)
+          cartPage.verifyProductDetailsInCartList(addedProduct)
+        })
+      })
     })
   })
 })

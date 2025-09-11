@@ -44,6 +44,10 @@ export default class CartPage extends BasePage {
     cy.get(this.cartListItem).should('have.length', numOfProducts)
   }
 
+  verifyCheckoutIsDisabled() {
+    cy.get(this.checkoutButton).should('be.disabled')
+  }
+
 
   /**
    * Verifies details of added product in the cart
@@ -87,6 +91,17 @@ export default class CartPage extends BasePage {
     })
   }
 
+  clickOnContinueShoppingButton() {
+    cy.get(this.continueShoppingButton).click()
+  }
+
+  clickOnCheckoutButton() {
+    cy.get(this.checkoutButton).click()
+  }
+
+  reloadThePage() {
+    cy.reload()
+  }
 
 
 }

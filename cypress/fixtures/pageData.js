@@ -16,6 +16,10 @@ export default {
   cart: {
     url: '/cart.html',
     title: 'Your Cart'
+  },
+  checkout: {
+    url: '/checkout-step-one.html',
+    title: 'Checkout: Your Information'
   }
 
 }
