@@ -9,12 +9,14 @@ import ProductsPage from "../pages/ProductsPage"
 import CartPage from "../pages/CartPage"
 import CheckoutPage from "../pages/CheckoutPage"
 import OverviewPage from "../pages/OverviewPage"
+import CompletionPage from "../pages/CompletionPage"
 const loginPage = new LoginPage()
 const header = new Header()
 const productsPage = new ProductsPage()
 const cartPage = new CartPage()
 const checkoutPage = new CheckoutPage()
 const overviewPage = new OverviewPage()
+const completionPage = new CompletionPage()
 
 describe('Overview page tests', () => {
   beforeEach(() => {
@@ -27,7 +29,6 @@ describe('Overview page tests', () => {
       productsPage.addDifferentProducts(1).then(() => {
         header.openCart()
         cartPage.clickOnCheckoutButton()
-        checkoutPage.verifyPageLoaded(pageData.checkout)
         checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
         checkoutPage.clickContinueButton()
         overviewPage.verifyPageLoaded(pageData.overview)
@@ -46,16 +47,40 @@ describe('Overview page tests', () => {
       productsPage.addDifferentProducts(3).then((addedProduct) => {
         header.openCart()
         cartPage.clickOnCheckoutButton()
-        checkoutPage.verifyPageLoaded(pageData.checkout)
         checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
         checkoutPage.clickContinueButton()
-        overviewPage.verifyPageLoaded(pageData.overview)
         overviewPage.verifyProductDetailsInOverviewList(addedProduct)
       })
       overviewPage.verifySubtotal();
       overviewPage.verifyTax();
       overviewPage.verifyTotal();
     })
+  })
 
+  describe('Finishing an order', () => {
+    it('TC-040: Successfully finish an order', () => {
+      productsPage.addDifferentProducts(2).then(() => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
+        checkoutPage.clickContinueButton()
+        overviewPage.clickFinishButton()
+        completionPage.verifyPageLoaded(pageData.completion)
+        header.verifyThereIsNoQuantity()
+      })
+    })
+  })
+
+  describe('Navigation from Overview page', () => {
+    it('TC-041: Cancel order from Overview page', () => {
+      productsPage.addDifferentProducts(2).then((addedProducts) => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
+        checkoutPage.clickContinueButton()
+        overviewPage.clickCancelButton()
+        cartPage.verifyProductDetailsInCartList(addedProducts)
+      })
+    })
   })
 })

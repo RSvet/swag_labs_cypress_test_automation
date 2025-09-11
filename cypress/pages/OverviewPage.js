@@ -142,5 +142,13 @@ export default class OverviewPage extends BasePage {
     });
   }
 
+  clickFinishButton() {
+    cy.get(this.finishButton).click()
+  }
+
+  clickCancelButton() {
+    cy.get(this.cancelButton).click()
+  }
+
 
 }
