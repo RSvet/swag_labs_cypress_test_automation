@@ -12,6 +12,10 @@ export default {
   about: {
     url: 'https://saucelabs.com',
     title: "Sauce Labs: Cross Browser Testing, Selenium Testing & Mobile Testing"
+  },
+  cart: {
+    url: '/cart.html',
+    title: 'Your Cart'
   }
 
 }
