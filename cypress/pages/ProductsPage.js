@@ -6,8 +6,7 @@ import BasePage from "./BasePage"
 export default class ProductsPage extends BasePage {
 
   //Locators
-  cartIcon = '.shopping_cart_link'
-  quantityIndicator = '[data-test="shopping-cart-badge"]'
+
   sortingFilter = '[data-test="product-sort-container"]'
   productCard = '[data-test="inventory-item"]'
   productName = '[data-test="inventory-item-name"]'
@@ -16,12 +15,7 @@ export default class ProductsPage extends BasePage {
   addToCartButton = (name) => `[data-test="add-to-cart-${name.toLowerCase().replace(/ /g, '-')}"]`
   removeButton = (name) => `[data-test="remove-${name.toLowerCase().replace(/ /g, '-')}"]`
 
-
-
   //Actions
-  openCart() {
-    cy.get(this.cartIcon).click()
-  }
 
   /**
    * Add N products to the cart
@@ -148,23 +142,6 @@ export default class ProductsPage extends BasePage {
   }
 
   /**
-   * Verifies number in the bagde on the cart icon
-   * @param {number} quantity - number of added products
-   */
-
-  verifyAddedProductQuantity(quantity) {
-    cy.get(this.quantityIndicator).should('have.text', quantity)
-  }
-
-  /**
-   * Verifies there are no added products - no indicator on the cart icon
-   */
-
-  verifyThereIsNoQuantity() {
-    cy.get(this.quantityIndicator).should('not.exist')
-  }
-
-  /**
    * Sort products by selected option
    * @param {string} option - sorting option
    */
@@ -213,10 +190,7 @@ export default class ProductsPage extends BasePage {
    * Verifies if app state resets
    * @param {array} addedProducts - array of product objects added to the cart
    */
-  verifyResetState(addedProducts) {
-    // Cart badge disappears
-    cy.get(this.quantityIndicator).should('not.exist')
-
+  verifyResetStateProducts(addedProducts) {
     addedProducts.forEach(product => {
       // Remove buttons gone
       cy.get(this.removeButton(product.name)).should('not.exist')
