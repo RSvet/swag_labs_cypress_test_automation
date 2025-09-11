@@ -20,35 +20,43 @@ describe('Checkout information page test scenarios', () => {
   beforeEach(() => {
     loginPage.navigateToLoginPage()
     loginPage.login(credentials.validUsername, credentials.validPassword)
-
-    productsPage.addDifferentProducts(1).then(() => {
-      header.openCart()
-      cartPage.clickOnCheckoutButton()
-    })
   })
 
   describe('Checkout information page display', () => {
     it('TC-030: UI verification of "Checkout: Your Information" page', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.verifyInputFirstNameIsVisible()
-      checkoutPage.verifyInputLastNameIsVisible()
-      checkoutPage.verifyInputZipCodeIsVisible()
-      checkoutPage.verifyCancelButtonIsVisible()
-      checkoutPage.verifyContinueButtonIsVisible()
-
+      productsPage.addDifferentProducts(1).then(() => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
+        checkoutPage.verifyInputFirstNameIsVisible()
+        checkoutPage.verifyInputLastNameIsVisible()
+        checkoutPage.verifyInputZipCodeIsVisible()
+        checkoutPage.verifyCancelButtonIsVisible()
+        checkoutPage.verifyContinueButtonIsVisible()
+      })
     })
   })
 
   describe('Successfull checkout', () => {
     it('TC-031: Submit valid information', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
-      checkoutPage.clickContinueButton()
-      overviewPage.verifyPageLoaded(pageData.overview)
+      productsPage.addDifferentProducts(1).then(() => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
+        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
+        checkoutPage.clickContinueButton()
+        overviewPage.verifyPageLoaded(pageData.overview)
+      })
     })
   })
 
   describe('User provides incomplete/incorrect information', () => {
+    beforeEach(() => {
+      productsPage.addDifferentProducts(1).then(() => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+      })
+    })
     it('TC-032: Checkout with all empty fields', () => {
       checkoutPage.verifyPageLoaded(pageData.checkout)
       checkoutPage.clickContinueButton()
@@ -85,7 +93,22 @@ describe('Checkout information page test scenarios', () => {
       checkoutPage.enterLastName(checkoutInfo.validLastName)
       checkoutPage.enterZipCode(checkoutInfo.invalidZipCode)
       checkoutPage.clickContinueButton()
-      checkoutPage.verifyErrorMessage(errorMsgs.invalidZipCode)
+      checkoutPage.verifyErrorMessage(errorMsgs.invalidZipCodeMsg)
     })
   })
+
+  describe('Navigation from Checkout: Your Information page', () => {
+    it('TC-037 Validate navigation from the page', () => {
+      productsPage.addDifferentProducts(1).then((addedProduct) => {
+        header.openCart()
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
+        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
+        checkoutPage.clickCancelButton()
+        cartPage.verifyPageLoaded(pageData.cart)
+        cartPage.verifyProductDetailsInCartList(addedProduct)
+      })
+    })
+  })
+
 })

@@ -5,7 +5,7 @@ export default {
   missingFirstNameMsg: "Error: First Name is required",
   missingLastNameMsg: "Error: Last Name is required",
   missingZipCodeMsg: "Error: Postal Code is required",
-  missingZipCodeMsg: "Error: Postal Code is invalid",
+  invalidZipCodeMsg: "Error: Postal Code is invalid",
 
 
 }
