@@ -41,4 +41,30 @@ export default class CheckoutPage extends BasePage {
     cy.get(this.continueButton).should('be.visible').and('has.value', 'Continue')
   }
 
+  enterFirstName(name) {
+    cy.get(this.inputFirstName).type(name)
+  }
+
+  enterLastName(lastName) {
+    cy.get(this.inputLastName).type(lastName)
+  }
+
+  enterZipCode(zip) {
+    cy.get(this.inputZipCode).type(zip)
+  }
+
+  populateInfoForm(name, lastName, zip) {
+    this.enterFirstName(name)
+    this.enterLastName(lastName)
+    this.enterZipCode(zip)
+  }
+
+  clickContinueButton() {
+    cy.get(this.continueButton).click()
+  }
+
+  clickCancelButton() {
+    cy.get(this.cancelButton).click()
+  }
+
 }
