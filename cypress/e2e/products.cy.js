@@ -28,4 +28,41 @@ describe('Products page scenarios', () => {
       productsPage.verifyProductsPrices(productsData.products)
     })
   })
+
+  describe('Add/Remove products to cart', () => {
+    it('TC-015: Add a product to cart', () => {
+      let allAddedProducts = []
+
+      //add one product to the cart and check quantity
+      productsPage.addDifferentProducts(1).then(addedFirst => {
+        allAddedProducts = [...addedFirst]
+        productsPage.verifyAddedProductQuantity(1)
+      })
+
+
+      //add more products to the cart and check quantity
+      productsPage.addDifferentProducts(2).then(addedSecond => {
+        allAddedProducts = [...allAddedProducts, ...addedSecond]
+        productsPage.verifyAddedProductQuantity(allAddedProducts.length)
+      })
+    })
+
+    it('TC-016: Remove products from cart', () => {
+      productsPage.addDifferentProducts(3).then(addedProducts => {
+        productsPage.verifyAddedProductQuantity(3)
+        productsPage.removeASingleProduct(addedProducts[0].name)
+
+        const remainingProducts = addedProducts.filter(p => p.name !== addedProducts[0].name)
+        productsPage.verifyAddedProductQuantity(remainingProducts.length)
+
+        productsPage.removeAllAddedProducts(remainingProducts)
+        productsPage.verifyThereIsNoQuantity()
+
+      })
+    })
+  })
+
+
+
+
 })
