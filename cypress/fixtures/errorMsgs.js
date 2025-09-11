@@ -4,6 +4,8 @@ export default {
   invalidCredentialsMsg: "Epic sadface: Username and password do not match any user in this service",
   missingFirstNameMsg: "Error: First Name is required",
   missingLastNameMsg: "Error: Last Name is required",
-  MissingZipCodeMsg: "Error: Postal Code is required"
+  missingZipCodeMsg: "Error: Postal Code is required",
+  missingZipCodeMsg: "Error: Postal Code is invalid",
+
 
 }

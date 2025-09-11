@@ -40,11 +40,52 @@ describe('Checkout information page test scenarios', () => {
   })
 
   describe('Successfull checkout', () => {
-    it.only('TC-031: Submit valid information', () => {
+    it('TC-031: Submit valid information', () => {
       checkoutPage.verifyPageLoaded(pageData.checkout)
       checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
       checkoutPage.clickContinueButton()
       overviewPage.verifyPageLoaded(pageData.overview)
+    })
+  })
+
+  describe('User provides incomplete/incorrect information', () => {
+    it('TC-032: Checkout with all empty fields', () => {
+      checkoutPage.verifyPageLoaded(pageData.checkout)
+      checkoutPage.clickContinueButton()
+      checkoutPage.verifyErrorMessage(errorMsgs.missingFirstNameMsg)
+    })
+
+    it('TC-033: Checkout without first name', () => {
+      checkoutPage.verifyPageLoaded(pageData.checkout)
+      checkoutPage.enterLastName(checkoutInfo.validLastName)
+      checkoutPage.enterZipCode(checkoutInfo.validZipCode)
+      checkoutPage.clickContinueButton()
+      checkoutPage.verifyErrorMessage(errorMsgs.missingFirstNameMsg)
+    })
+
+    it('TC-034: Checkout without last name', () => {
+      checkoutPage.verifyPageLoaded(pageData.checkout)
+      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
+      checkoutPage.enterZipCode(checkoutInfo.validZipCode)
+      checkoutPage.clickContinueButton()
+      checkoutPage.verifyErrorMessage(errorMsgs.missingLastNameMsg)
+    })
+
+    it('TC-035: Checkout without zip code', () => {
+      checkoutPage.verifyPageLoaded(pageData.checkout)
+      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
+      checkoutPage.enterLastName(checkoutInfo.validLastName)
+      checkoutPage.clickContinueButton()
+      checkoutPage.verifyErrorMessage(errorMsgs.missingZipCodeMsg)
+    })
+
+    it('TC-036: Checkout with invalid zip code', () => {
+      checkoutPage.verifyPageLoaded(pageData.checkout)
+      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
+      checkoutPage.enterLastName(checkoutInfo.validLastName)
+      checkoutPage.enterZipCode(checkoutInfo.invalidZipCode)
+      checkoutPage.clickContinueButton()
+      checkoutPage.verifyErrorMessage(errorMsgs.invalidZipCode)
     })
   })
 })

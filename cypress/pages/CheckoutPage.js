@@ -41,6 +41,10 @@ export default class CheckoutPage extends BasePage {
     cy.get(this.continueButton).should('be.visible').and('has.value', 'Continue')
   }
 
+  verifyErrorMessage(message) {
+    cy.get(this.errMsgContainer).should('contain.text', message)
+  }
+
   enterFirstName(name) {
     cy.get(this.inputFirstName).type(name)
   }
