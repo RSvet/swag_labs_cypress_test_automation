@@ -37,11 +37,12 @@ export default class ProductsPage extends BasePage {
       selectedProducts.forEach((item) => {
         const name = item.querySelector(this.productName).innerText
         const price = item.querySelector(this.productPrice).innerText
+        const description = item.querySelector(this.productDescription).innerText
 
         // Click add button for this product
         cy.get(this.addToCartButton(name)).click()
 
-        addedProducts.push({ name, price })
+        addedProducts.push({ name, price, description })
       })
     })
 
