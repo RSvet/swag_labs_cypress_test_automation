@@ -4,9 +4,11 @@ import pageData from "../fixtures/pageData"
 import productsData from "../fixtures/productsData"
 import LoginPage from "../pages/LoginPage"
 import ProductsPage from "../pages/ProductsPage"
+import ProductsDetailsPage from "../pages/ProductsDetailsPage "
 
 const loginPage = new LoginPage()
 const productsPage = new ProductsPage()
+const productDetailsPage = new ProductsDetailsPage()
 
 describe('Products page scenarios', () => {
 
@@ -79,6 +81,28 @@ describe('Products page scenarios', () => {
       productsPage.sortProductsBy('Price (high to low)')
       productsPage.verifyProductsSortedByPrice('desc')
 
+    })
+  })
+
+  describe('Navigate to individual product page', () => {
+    it('TC-019: Verify product details on individual page', () => {
+      const productName = 'Sauce Labs Fleece Jacket'
+      productsPage.getProductDataAndNavigate(productName)
+        .then(productData => {
+          productDetailsPage.verifyPageUrl(pageData.productsDetails.url)
+          productDetailsPage.verifyProductDetails(productData)
+          productDetailsPage.goBackToProducts()
+        })
+    })
+
+    it('TC-020 Add/Remove product to cart from product details page', () => {
+      const productName = 'Sauce Labs Fleece Jacket'
+      productsPage.clickProductByName(productName)
+      productDetailsPage.verifyPageUrl(pageData.productsDetails.url)
+      productDetailsPage.clickAddToCart()
+      productsPage.verifyAddedProductQuantity(1)
+      productDetailsPage.clickRemoveButton()
+      productsPage.verifyThereIsNoQuantity()
     })
   })
 

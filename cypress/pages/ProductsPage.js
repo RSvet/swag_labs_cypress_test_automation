@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import BasePage from "./BasePage";
+import BasePage from "./BasePage"
 
 
 export default class ProductsPage extends BasePage {
@@ -20,7 +20,7 @@ export default class ProductsPage extends BasePage {
 
   //Actions
   openCart() {
-    cy.get(this.cartIcon).click();
+    cy.get(this.cartIcon).click()
   }
 
   /**
@@ -29,16 +29,16 @@ export default class ProductsPage extends BasePage {
    * @returns array of added product objects with name and price
    */
   addDifferentProducts(count) {
-    const addedProducts = [];
+    const addedProducts = []
     cy.get(this.productCard).then(($items) => {
       const productsToAdd = []
       $items.each((index, el) => {
-        const removeButton = el.querySelector('[data-test^="remove"]');
+        const removeButton = el.querySelector('[data-test^="remove"]')
         if (!removeButton) {
-          productsToAdd.push(el);
+          productsToAdd.push(el)
         }
       })
-      const selectedProducts = productsToAdd.slice(0, count);
+      const selectedProducts = productsToAdd.slice(0, count)
 
       selectedProducts.forEach((item) => {
         const name = item.querySelector(this.productName).innerText
@@ -48,8 +48,8 @@ export default class ProductsPage extends BasePage {
         cy.get(this.addToCartButton(name)).click()
 
         addedProducts.push({ name, price })
-      });
-    });
+      })
+    })
 
     return cy.wrap(addedProducts)
   }
@@ -66,10 +66,46 @@ export default class ProductsPage extends BasePage {
   removeAllAddedProducts(addedProducts) {
     const productNames = addedProducts.map(p => p.name)
     productNames.forEach((name, i) => {
-      cy.get(this.removeButton(name)).click();
+      cy.get(this.removeButton(name)).click()
     })
   }
 
+  /**
+   * Opens individual product page
+   * @param {string} productName 
+   */
+  clickProductByName(productName) {
+    cy.get(this.productName)
+      .contains(productName)
+      .click()
+  }
+
+  /**
+   * Returns the product data of clicked product
+   * @param {string} productName 
+   */
+  getProductDataAndNavigate(productName) {
+    // Find the product card first
+    return cy.get(this.productCard)
+      .contains(this.productName, productName)
+      .closest(this.productCard)
+      .then($card => {
+        // Grab the name, description, and price from the card
+        const name = $card.find(this.productName).text();
+        const description = $card.find(this.productDescription).text();
+        const price = $card.find(this.productPrice).text();
+
+        const productData = { name, description, price };
+
+        // Click the product name to navigate
+        this.clickProductByName(productName)
+
+        // Return wrapped data
+        return cy.wrap(productData);
+      });
+  }
+
+  //Verification
   /**
    * Verifies number of the products on the Products page
    * @param {number} numberOfExpectedProducts - expected number of products on the page
@@ -152,9 +188,9 @@ export default class ProductsPage extends BasePage {
       if (order === 'desc') sortedArray.reverse()
 
       nameArray.forEach((name, index) => {
-        expect(name, `Name at index ${index}`).to.equal(sortedArray[index]);
-      });
-    });
+        expect(name, `Name at index ${index}`).to.equal(sortedArray[index])
+      })
+    })
   }
 
   /**
@@ -167,9 +203,9 @@ export default class ProductsPage extends BasePage {
       const sortedArray = order === 'asc' ? [...priceArray].sort((a, b) => a - b) : [...priceArray].sort((a, b) => b - a)
 
       priceArray.forEach((price, index) => {
-        expect(price, `Price at index ${index}`).to.equal(sortedArray[index]);
-      });
-    });
+        expect(price, `Price at index ${index}`).to.equal(sortedArray[index])
+      })
+    })
   }
 
 
