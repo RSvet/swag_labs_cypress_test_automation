@@ -24,6 +24,10 @@ export default {
   overview: {
     url: '/checkout-step-two.html',
     title: 'Checkout: Overview'
+  },
+  completion: {
+    url: '/checkout-complete.html',
+    title: 'Checkout: Complete!'
   }
 
 }
