@@ -1,16 +1,18 @@
 /// <reference types="cypress" />
 
-export default class Header {
+import BasePage from "./BasePage"
+
+export default class Header extends BasePage {
   menuButton = '.bm-burger-button'
   cartIcon = '.shopping_cart_link'
   quantityIndicator = '[data-test="shopping-cart-badge"]'
 
   openMenu() {
-    cy.get(this.menuButton).click()
+    this.clickElement(this.menuButton)
   }
 
   openCart() {
-    cy.get(this.cartIcon).click()
+    this.clickElement(this.cartIcon)
   }
 
   /**
