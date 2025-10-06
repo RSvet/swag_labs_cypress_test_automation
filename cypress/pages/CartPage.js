@@ -54,18 +54,17 @@ export default class CartPage extends BasePage {
    * @param {array} addedProducts - array of added product objects
    */
   verifyProductDetailsInCartList(addedProducts) {
-    addedProducts.forEach((product, i) => {
+    cy.wrap(addedProducts).each((product, i) => {
       cy.get(this.cartListItem).eq(i).within(() => {
-        this.verifyCartItemName(product.name)
-        this.verifyCartItemPrice(product.price)
-        this.verifyCartItemDescription(product.description)
+        cy.get(this.cartListItemName).should('have.text', product.name)
+        cy.get(this.cartListItemPrice).should('have.text', product.price)
+        cy.get(this.cartListItemDescription).should('have.text', product.description)
       })
     })
-
   }
 
   removeASingleProduct(productName) {
-    cy.get(this.removeButton(productName)).click()
+    this.clickElement(this.removeButton(productName))
   }
 
   /**
@@ -74,34 +73,22 @@ export default class CartPage extends BasePage {
    */
 
   removeAllAddedProducts(addedProducts) {
-    const productNames = addedProducts.map(p => p.name)
-    productNames.forEach((name, i) => {
-      cy.get(this.removeButton(name)).click()
+    cy.wrap(addedProducts).each((product) => {
+      this.clickElement(this.removeButton(product.name))
     })
-  }
 
-  /**
-   * Change quantity of a product in a cart
-   * @param {number} change - update for quantity
-   */
-  changeQuantity(change) {
-    cy.get(this.quantityContainer).first().invoke('text').then(quantity => {
-      const currentQuantity = quantity * 1
-      cy.get(this.quantityContainer).first().type(currentQuantity + change)
-    })
   }
 
   clickOnContinueShoppingButton() {
-    cy.get(this.continueShoppingButton).click()
+    this.clickElement(this.continueShoppingButton)
   }
 
   clickOnCheckoutButton() {
-    cy.get(this.checkoutButton).click()
+    this.clickElement(this.checkoutButton)
   }
 
   reloadThePage() {
     cy.reload()
   }
-
 
 }

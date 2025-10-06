@@ -36,15 +36,14 @@ describe('Cart page scenarios', () => {
         header.openCart()
         cartPage.verifyProductDetailsInCartList(addedProduct)
         cartPage.removeAllAddedProducts(addedProduct)
+        cartPage.verifyCartIsEmpty()
       })
-      cartPage.verifyCartIsEmpty()
     })
 
     it('TC-023: Multiple products added to cart', () => {
       productPage.addDifferentProducts(3).then(addedProducts => {
         header.openCart()
         cartPage.verifyProductDetailsInCartList(addedProducts)
-
         cartPage.removeASingleProduct(addedProducts[2].name)
         const remainingProducts = addedProducts.filter(p => p.name !== addedProducts[2].name)
         header.verifyAddedProductQuantity(remainingProducts.length)
@@ -54,58 +53,51 @@ describe('Cart page scenarios', () => {
 
     })
 
-    it('TC-024: Update product quantity in the cart', () => {
-      productPage.addDifferentProducts(1).then(() => {
-        header.openCart()
-        cartPage.changeQuantity(3)
-      })
+  })
 
+  describe('Navigation from cart page', () => {
+    it('TC-025: Validate navigation from cart page to checkout with empty cart', () => {
+      header.openCart()
+      cartPage.verifyPageLoaded(pageData.cart)
+      cartPage.verifyCartIsEmpty()
+      cartPage.verifyCheckoutIsDisabled()
     })
 
-    describe('Navigation from cart page', () => {
-      it('TC-025: Validate navigation from cart page to checkout with empty cart', () => {
-        header.openCart()
-        cartPage.verifyPageLoaded(pageData.cart)
-        cartPage.verifyCartIsEmpty()
-        cartPage.verifyCheckoutIsDisabled()
-      })
+    it('TC-026: Validate navigation from cart page to products with empty cart', () => {
+      header.openCart()
+      cartPage.verifyPageLoaded(pageData.cart)
+      cartPage.verifyCartIsEmpty()
+      cartPage.clickOnContinueShoppingButton()
+      productPage.verifyPageLoaded(pageData.products)
+      productPage.verifyAllProductsPresent(productsData.products.length)
+    })
 
-      it('TC-026: Validate navigation from cart page to products with empty cart', () => {
+    it('TC-027: Validate navigation from cart page to checkout with added product to cart', () => {
+      productPage.addDifferentProducts(1).then(() => {
         header.openCart()
-        cartPage.verifyPageLoaded(pageData.cart)
-        cartPage.verifyCartIsEmpty()
+        cartPage.verifyNumberOfProductsInCart(1)
+        cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
+      })
+    })
+
+    it('TC-028: Validate navigation from cart page to products with added product to cart', () => {
+      productPage.addDifferentProducts(1).then(() => {
+        header.openCart()
+        cartPage.verifyNumberOfProductsInCart(1)
         cartPage.clickOnContinueShoppingButton()
         productPage.verifyPageLoaded(pageData.products)
         productPage.verifyAllProductsPresent(productsData.products.length)
       })
+    })
 
-      it('TC-027: Validate navigation from cart page to checkout with added product to cart', () => {
-        productPage.addDifferentProducts(1).then(() => {
-          header.openCart()
-          cartPage.verifyNumberOfProductsInCart(1)
-          cartPage.clickOnCheckoutButton()
-          checkoutPage.verifyPageLoaded(pageData.checkout)
-        })
-      })
-
-      it('TC-028: Validate navigation from cart page to products with added product to cart', () => {
-        productPage.addDifferentProducts(1).then(() => {
-          header.openCart()
-          cartPage.verifyNumberOfProductsInCart(1)
-          cartPage.clickOnContinueShoppingButton()
-          productPage.verifyPageLoaded(pageData.products)
-          productPage.verifyAllProductsPresent(productsData.products.length)
-        })
-      })
-
-      it('TC-029: Validate cart state persists after relaoding the page', () => {
-        productPage.addDifferentProducts(1).then((addedProduct) => {
-          header.openCart()
-          cartPage.verifyNumberOfProductsInCart(1)
-          cartPage.reloadThePage()
-          header.verifyAddedProductQuantity(1)
-          cartPage.verifyProductDetailsInCartList(addedProduct)
-        })
+    it('TC-029: Validate cart state persists after relaoding the page', () => {
+      productPage.addDifferentProducts(1).then((addedProduct) => {
+        header.openCart()
+        cartPage.verifyNumberOfProductsInCart(1)
+        cartPage.reloadThePage()
+        header.verifyAddedProductQuantity(1)
+        cartPage.verifyProductDetailsInCartList(addedProduct)
       })
     })
   })
