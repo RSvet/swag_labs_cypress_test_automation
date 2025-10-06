@@ -40,7 +40,7 @@ export default class ProductsPage extends BasePage {
         const description = item.querySelector(this.productDescription).innerText
 
         // Click add button for this product
-        cy.get(this.addToCartButton(name)).click()
+        this.clickElement(this.addToCartButton(name))
 
         addedProducts.push({ name, price, description })
       })
@@ -50,7 +50,7 @@ export default class ProductsPage extends BasePage {
   }
 
   removeASingleProduct(productName) {
-    cy.get(this.removeButton(productName)).click()
+    this.clickElement(this.removeButton(productName))
   }
 
   /**
@@ -61,7 +61,7 @@ export default class ProductsPage extends BasePage {
   removeAllAddedProducts(addedProducts) {
     const productNames = addedProducts.map(p => p.name)
     productNames.forEach((name, i) => {
-      cy.get(this.removeButton(name)).click()
+      this.clickElement(this.removeButton(name))
     })
   }
 
