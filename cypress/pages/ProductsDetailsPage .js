@@ -24,15 +24,16 @@ export default class ProductsDetailsPage extends BasePage {
   }
 
   goBackToProducts() {
-    cy.get(this.backButton).click()
+    this.clickElement(this.backButton)
   }
 
   clickAddToCart() {
-    cy.get(this.addToCartButton).click()
+    this.clickElement(this.addToCartButton)
   }
 
   clickRemoveButton() {
-    cy.get(this.removeButton).click()
+    this.verifyVisibilityOfRemoveButton()
+    this.clickElement(this.removeButton)
   }
 
   verifyVisibilityOfRemoveButton() {
