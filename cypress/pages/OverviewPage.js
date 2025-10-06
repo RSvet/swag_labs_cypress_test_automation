@@ -143,11 +143,11 @@ export default class OverviewPage extends BasePage {
   }
 
   clickFinishButton() {
-    cy.get(this.finishButton).click()
+    this.clickElement(this.finishButton)
   }
 
   clickCancelButton() {
-    cy.get(this.cancelButton).click()
+    this.clickElement(this.cancelButton)
   }
 
 

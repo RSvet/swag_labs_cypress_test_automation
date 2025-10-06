@@ -50,10 +50,10 @@ describe('Overview page tests', () => {
         checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
         checkoutPage.clickContinueButton()
         overviewPage.verifyProductDetailsInOverviewList(addedProduct)
+        overviewPage.verifySubtotal();
+        overviewPage.verifyTax();
+        overviewPage.verifyTotal();
       })
-      overviewPage.verifySubtotal();
-      overviewPage.verifyTax();
-      overviewPage.verifyTotal();
     })
   })
 

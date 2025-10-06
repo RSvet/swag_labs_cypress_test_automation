@@ -11,13 +11,19 @@ export default class CompletionPage extends BasePage {
   thankYouMsg = 'Thank you for your order!'
   completeMsg = 'Your order has been dispatched, and will arrive just as fast as the pony can get there!'
 
-  verifyVisibilityOfOrderCompletionText() {
+  verifyOrderCompletionMessages() {
     cy.get(this.checkoutCompleteContainer).should('contain', this.thankYouMsg)
     cy.get(this.checkoutCompleteContainer).should('contain', this.completeMsg)
   }
 
+  verifyBackHomeButtonVisible() {
+    cy.get(this.backHomeButton)
+      .should('be.visible')
+      .and('contain.text', 'Back Home')
+  }
+
   clickBackHomeButton() {
-    cy.get(this.backHomeButton).click()
+    this.clickElement(this.backHomeButton)
   }
 
 }
