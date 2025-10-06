@@ -14,19 +14,19 @@ export default class SideMenu extends BasePage {
   //Actions 
 
   navigateToAllItems() {
-    cy.get(this.allItemsLink).click()
+    this.clickElement(this.allItemsLink)
   }
 
   navigateToAbout() {
-    cy.get(this.aboutLink).click()
+    this.clickElement(this.aboutLink)
   }
 
   logout() {
-    cy.get(this.logoutLink).click()
+    this.clickElement(this.logoutLink)
   }
 
   resetAppState() {
-    cy.get(this.resetAppStateLink).click()
+    this.clickElement(this.resetAppStateLink)
   }
 
 

@@ -44,8 +44,10 @@ describe('Side menu navigation', () => {
   })
 
   it('TC-010: Navigate to Products page', () => {
+    //first navigate to cart from Products page
     header.openCart()
     header.openMenu()
+    //then navigate again to Products page from the side menu
     sideMenu.navigateToAllItems()
     productsPage.verifyPageLoaded(page_data.products)
   })
