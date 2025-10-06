@@ -48,15 +48,15 @@ export default class CheckoutPage extends BasePage {
   }
 
   enterFirstName(name) {
-    cy.get(this.inputFirstName).type(name)
+    this.typeText(this.inputFirstName, name)
   }
 
   enterLastName(lastName) {
-    cy.get(this.inputLastName).type(lastName)
+    this.typeText(this.inputLastName, lastName)
   }
 
   enterZipCode(zip) {
-    cy.get(this.inputZipCode).type(zip)
+    this.typeText(this.inputZipCode, zip)
   }
 
   populateInfoForm(name, lastName, zip) {
