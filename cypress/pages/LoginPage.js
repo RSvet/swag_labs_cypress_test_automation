@@ -17,7 +17,7 @@ export default class LoginPage extends BasePage {
   }
 
   enterUsername(username) {
-    cy.get(this.usernameInput).type(username)
+    this.typeText(this.usernameInput, username)
   }
 
   enterPassword(password) {
@@ -25,7 +25,7 @@ export default class LoginPage extends BasePage {
   }
 
   clickLoginButton() {
-    cy.get(this.loginButton).click()
+    this.clickElement(this.loginButton)
   }
 
   //Perform login
@@ -37,7 +37,8 @@ export default class LoginPage extends BasePage {
 
   //Validate error message 
   verifyErrorMessage(message) {
-    cy.get(this.errorMessage).should('have.text', message)
+    this.verifyPageUrl('/')
+    cy.get(this.errorMessage).should('contain.text', message)
   }
 
   //Validate login button is present

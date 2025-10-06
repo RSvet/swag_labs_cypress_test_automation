@@ -101,6 +101,11 @@ export default class ProductsPage extends BasePage {
   }
 
   //Verification
+
+  verifyLoginSuccessful(pageInfo) {
+    this.verifyPageLoaded(pageInfo)
+  }
+
   /**
    * Verifies number of the products on the Products page
    * @param {number} numberOfExpectedProducts - expected number of products on the page
