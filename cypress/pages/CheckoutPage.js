@@ -38,11 +38,13 @@ export default class CheckoutPage extends BasePage {
   }
 
   verifyContinueButtonIsVisible() {
-    cy.get(this.continueButton).should('be.visible').and('has.value', 'Continue')
+    cy.get(this.continueButton).should('be.visible').and('have.value', 'Continue')
   }
 
   verifyErrorMessage(message) {
-    cy.get(this.errMsgContainer).should('contain.text', message)
+    cy.get(this.errMsgContainer).invoke('text').then(text => {
+      expect(text.trim()).to.eq(message)
+    })
   }
 
   enterFirstName(name) {
@@ -64,11 +66,18 @@ export default class CheckoutPage extends BasePage {
   }
 
   clickContinueButton() {
-    cy.get(this.continueButton).click()
+    this.clickElement(this.continueButton)
+  }
+
+  submitForm(firstName, lastName, zip) {
+    if (firstName) this.enterFirstName(firstName)
+    if (lastName) this.enterLastName(lastName)
+    if (zip) this.enterZipCode(zip)
+    this.clickContinueButton()
   }
 
   clickCancelButton() {
-    cy.get(this.cancelButton).click()
+    this.clickElement(this.cancelButton)
   }
 
 }

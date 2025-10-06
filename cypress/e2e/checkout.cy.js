@@ -43,8 +43,7 @@ describe('Checkout information page test scenarios', () => {
         header.openCart()
         cartPage.clickOnCheckoutButton()
         checkoutPage.verifyPageLoaded(pageData.checkout)
-        checkoutPage.populateInfoForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
-        checkoutPage.clickContinueButton()
+        checkoutPage.submitForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.validZipCode)
         overviewPage.verifyPageLoaded(pageData.overview)
       })
     })
@@ -55,44 +54,31 @@ describe('Checkout information page test scenarios', () => {
       productsPage.addDifferentProducts(1).then(() => {
         header.openCart()
         cartPage.clickOnCheckoutButton()
+        checkoutPage.verifyPageLoaded(pageData.checkout)
       })
     })
     it('TC-032: Checkout with all empty fields', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.clickContinueButton()
+      checkoutPage.submitForm(null, null, null)
       checkoutPage.verifyErrorMessage(errorMsgs.missingFirstNameMsg)
     })
 
     it('TC-033: Checkout without first name', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.enterLastName(checkoutInfo.validLastName)
-      checkoutPage.enterZipCode(checkoutInfo.validZipCode)
-      checkoutPage.clickContinueButton()
+      checkoutPage.submitForm(null, checkoutInfo.validLastName, checkoutInfo.validZipCode)
       checkoutPage.verifyErrorMessage(errorMsgs.missingFirstNameMsg)
     })
 
     it('TC-034: Checkout without last name', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
-      checkoutPage.enterZipCode(checkoutInfo.validZipCode)
-      checkoutPage.clickContinueButton()
+      checkoutPage.submitForm(checkoutInfo.validFirstName, null, checkoutInfo.validZipCode)
       checkoutPage.verifyErrorMessage(errorMsgs.missingLastNameMsg)
     })
 
     it('TC-035: Checkout without zip code', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
-      checkoutPage.enterLastName(checkoutInfo.validLastName)
-      checkoutPage.clickContinueButton()
+      checkoutPage.submitForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, null)
       checkoutPage.verifyErrorMessage(errorMsgs.missingZipCodeMsg)
     })
 
     it('TC-036: Checkout with invalid zip code', () => {
-      checkoutPage.verifyPageLoaded(pageData.checkout)
-      checkoutPage.enterFirstName(checkoutInfo.validFirstName)
-      checkoutPage.enterLastName(checkoutInfo.validLastName)
-      checkoutPage.enterZipCode(checkoutInfo.invalidZipCode)
-      checkoutPage.clickContinueButton()
+      checkoutPage.submitForm(checkoutInfo.validFirstName, checkoutInfo.validLastName, checkoutInfo.invalidZipCode)
       checkoutPage.verifyErrorMessage(errorMsgs.invalidZipCodeMsg)
     })
   })
